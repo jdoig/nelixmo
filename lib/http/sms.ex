@@ -47,14 +47,15 @@ defmodule Nelixmo.HTTP.SMS do
   end
 
   defp build_payload(text) do
-    Map.merge(%{
+    text
+    |> build_options
+    |> Map.merge(%{
       :from => text.sender.id,
       :to => text.recipient.number,
       :type => text.type,
       :text => text.message,
       :api_key => Nelixmo.Auth.key,
-      :api_secret => Nelixmo.Auth.secret
-    }, build_options(text))
+      :api_secret => Nelixmo.Auth.secret})
     |> Poison.encode!
   end
 
