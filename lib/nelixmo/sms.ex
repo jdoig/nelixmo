@@ -1,6 +1,11 @@
 defmodule Nelixmo.SMS.Text do
   @moduledoc false
-  defstruct [:sender, :recipient, :message, :type]
+  defstruct [:sender, :recipient, :message, :type, :options]
+end
+
+defmodule Nelixmo.SMS.Options do
+  @moduledoc false
+  defstruct [:client_ref, :status_report_req, :callback]
 end
 
 defmodule Nelixmo.SMS do
@@ -14,7 +19,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: nil}, type: "text"}
+        sender: %Nelixmo.Sender{id: nil}, type: "text", options: nil}
 
 
   ## Example usage
@@ -36,7 +41,7 @@ defmodule Nelixmo.SMS do
   ## Example
         iex> Nelixmo.SMS.unicode
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: nil}, type: "unicode"}
+        sender: %Nelixmo.Sender{id: nil}, type: "unicode", options: nil}
 
 
   ## Example usage
@@ -61,7 +66,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.from("MyCompany20")
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: "MyCompany20"}, type: "text"}
+        sender: %Nelixmo.Sender{id: "MyCompany20"}, type: "text", options: nil}
 
   ## Example usage
 
@@ -79,7 +84,7 @@ defmodule Nelixmo.SMS do
   * Alphanumeric - up to an 11 character string made up of the following supported characters: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
   """
   def from(request, sender_id) do
-    id = Nelixmo.Validate.sender_id sender_id
+    {:ok, id} = Nelixmo.Validate.sender_id sender_id
     sender = struct Nelixmo.Sender, [id: id]
     put_in(request.sender, sender)
   end
@@ -93,7 +98,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.to("447525856424")
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: "447525856424"},
-        sender: %Nelixmo.Sender{id: nil}, type: "text"}
+        sender: %Nelixmo.Sender{id: nil}, type: "text", options: nil}
 
 
  ## Example usage
@@ -107,7 +112,7 @@ defmodule Nelixmo.SMS do
 
   """
   def to(request, number) do
-    phone_number = Nelixmo.Validate.phone_number number
+    {:ok, phone_number} = Nelixmo.Validate.phone_number number
     recipient = struct Nelixmo.Recipient, [number: phone_number]
     put_in(request.recipient, recipient)
   end
@@ -121,7 +126,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.message("Hello world")
         %Nelixmo.SMS.Text{message: "Hello world", recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: nil}, type: "text"}
+        sender: %Nelixmo.Sender{id: nil}, type: "text", options: nil}
 
 
  ## Example usage
@@ -135,8 +140,29 @@ defmodule Nelixmo.SMS do
 
   """  
   def message(request, text) do
-    message = Nelixmo.Validate.text_message text
+    {:ok, message} = Nelixmo.Validate.text_message text
     put_in(request.message, message) # this should fail if request type does not support text
+  end
+
+  @doc """
+  Takes a `Nelixmo.SMS.text` struct and a map of `options`
+
+  Returns the passed in struct with options inserted as Nelixmo.SMS.Options
+
+  ## Example
+     iex> Nelixmo.SMS.text |> Nelixmo.SMS.options(client_ref: "MyRef123", status_report_req: 1, callback: "https://example.com/callback")
+     %Nelixmo.SMS.Text{message: nil,
+       options: %Nelixmo.SMS.Options{callback: "https://example.com/callback",
+       client_ref: "MyRef123", status_report_req: 1},
+       recipient: %Nelixmo.Recipient{number: nil}, sender: %Nelixmo.Sender{id: nil},
+       type: "text"}
+  """
+  def options(request, opts) do
+    options = struct(Nelixmo.SMS.Options, opts)
+    if Map.get(options, :callback), do: {:ok, _} = Nelixmo.Validate.url options.callback
+    if Map.get(options, :client_ref), do: {:ok, _} = Nelixmo.Validate.client_ref options.client_ref
+    if Map.get(options, :status_report_req), do: {:ok, _} = Nelixmo.Validate.bool_int options.status_report_req
+    put_in(request.options, options)
   end
 
 

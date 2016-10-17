@@ -1,6 +1,6 @@
 defmodule Nelixmo.HTTP.Message.Response do
   @moduledoc false
-  defstruct [:id, :price, :network, :remaining_balance, :to, :status, :error_text]
+  defstruct [:id, :price, :network, :remaining_balance, :to, :status, :error_text, :client_ref]
 end
 
 defmodule Nelixmo.HTTP.SMS do
@@ -18,6 +18,7 @@ defmodule Nelixmo.HTTP.SMS do
   defp decode_element({"message-id", value}), do: {:id, value}
   defp decode_element({"message-price", value}), do: {:price, String.to_float(value)}
   defp decode_element({"network", value}), do: {:network, value}
+  defp decode_element({"client-ref", value}), do: {:client_ref, value}
   defp decode_element({"remaining-balance", value}), do: {:remaining_balance, String.to_float(value)}
   defp decode_element({"to", value}), do: {:to, value}
   defp decode_element({"status", value}), do: {:status, String.to_integer(value)}
@@ -33,12 +34,15 @@ defmodule Nelixmo.HTTP.SMS do
 
   defp build_payload(text) do
     json = %{
-      from: text.sender.id,
-      to: text.recipient.number,
-      type: text.type,
-      text: text.message,
-      api_key: Nelixmo.Auth.key,
-      api_secret: Nelixmo.Auth.secret,
+      :from => text.sender.id,
+      :to => text.recipient.number,
+      :type => text.type,
+      :text => text.message,
+      :api_key => Nelixmo.Auth.key,
+      :api_secret => Nelixmo.Auth.secret,
+      :callback => text.options.callback,
+      "client-ref" => text.options.client_ref,
+      "status-report-req" => text.options.status_report_req,
     } |> Poison.encode!
   end
 

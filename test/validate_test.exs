@@ -3,11 +3,11 @@ defmodule NelixmoValidateTest do
   doctest Nelixmo.Validate
 
   test "sender_id as Numeric" do
-    assert Nelixmo.Validate.sender_id("447525856424") == "447525856424"
+    assert Nelixmo.Validate.sender_id("447525856424") == {:ok, "447525856424"}
   end
 
   test "sender_id as Alphanumeric" do
-    assert Nelixmo.Validate.sender_id("MyCompany20") == "MyCompany20"
+    assert Nelixmo.Validate.sender_id("MyCompany20") == {:ok, "MyCompany20"}
   end
 
   test "sender_id as Alphanumeric but too long" do
@@ -27,11 +27,11 @@ defmodule NelixmoValidateTest do
   end
 
   test "phone number with + prefix validates" do
-    assert Nelixmo.Validate.phone_number("+447525856424") == "+447525856424"
+    assert Nelixmo.Validate.phone_number("+447525856424") == {:ok, "+447525856424"}
   end
   
   test "phone number without + prefix validates" do
-    assert Nelixmo.Validate.phone_number("447525856424") == "447525856424"
+    assert Nelixmo.Validate.phone_number("447525856424") == {:ok, "447525856424"}
   end
 
   test "phone number with bad chars fails to validate" do
@@ -43,8 +43,8 @@ defmodule NelixmoValidateTest do
   end
 
   test "text message URI encodes" do
-    assert Nelixmo.Validate.text_message("HelloWorld") == "HelloWorld"
-    assert Nelixmo.Validate.text_message("Hello World") == "Hello World"
+    assert Nelixmo.Validate.text_message("HelloWorld") == {:ok, "HelloWorld"}
+    assert Nelixmo.Validate.text_message("Hello World") == {:ok, "Hello World"}
   end
 
 end
