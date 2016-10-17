@@ -26,8 +26,8 @@ Currently only supports (non-unicode) SMS text messaging
   Nelixmo.SMS.text
     |> from("MyCompany20")
     |> to("447525856424")
-      |> message("Hello Nexmo")
-      |> send_text
+    |> message("Hello Nexmo")
+    |> send_text
 ```
 
 ## Example usage (function style)
