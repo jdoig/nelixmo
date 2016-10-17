@@ -35,7 +35,7 @@ defmodule Nelixmo.HTTP.SMS do
     json = %{
       from: text.sender.id,
       to: text.recipient.number,
-      type: "text",
+      type: text.type,
       text: text.message,
       api_key: Nelixmo.Auth.key,
       api_secret: Nelixmo.Auth.secret,

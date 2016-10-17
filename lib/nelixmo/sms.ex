@@ -1,6 +1,6 @@
 defmodule Nelixmo.SMS.Text do
   @moduledoc false
-  defstruct [:sender, :recipient, :message]
+  defstruct [:sender, :recipient, :message, :type]
 end
 
 defmodule Nelixmo.SMS do
@@ -8,16 +8,16 @@ defmodule Nelixmo.SMS do
   Functions for building and sending SMS requests.
   """
 
- @doc ~S"""
+  @doc """
   Returns an empty `Nelixmo.SMS.text` struct
 
   ## Example 
         iex> Nelixmo.SMS.text
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: nil}}
+        sender: %Nelixmo.Sender{id: nil}, type: "text"}
 
 
- ## Example usage
+  ## Example usage
 
         import Nelixmo.SMS
         
@@ -27,8 +27,31 @@ defmodule Nelixmo.SMS do
           |> message("Hello Nexmo")
   """
   def text do
-    struct Nelixmo.SMS.Text, [sender: struct(Nelixmo.Sender), recipient: struct(Nelixmo.Recipient)]
+    struct Nelixmo.SMS.Text, [sender: struct(Nelixmo.Sender), recipient: struct(Nelixmo.Recipient), type: "text"]
   end
+
+  @doc """
+  Returns an empty `Nelixmo.SMS.text` struct
+
+  ## Example
+        iex> Nelixmo.SMS.unicode
+        %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
+        sender: %Nelixmo.Sender{id: nil}, type: "unicode"}
+
+
+  ## Example usage
+
+        import Nelixmo.SMS
+
+        Nelixmo.SMS.text
+          |> from("MyCompany20")
+          |> to("447525856424")
+          |> message("Hello Nexmo")
+  """
+  def unicode do
+    struct Nelixmo.SMS.Text, [sender: struct(Nelixmo.Sender), recipient: struct(Nelixmo.Recipient), type: "unicode"]
+  end
+
 
   @doc """
   Takes a `Nelixmo.SMS.text|binary|wappush|vcal|vcard` struct and a [`sender_id`](https://docs.nexmo.com/messaging/sms-api/building-global-apps#senderID)
@@ -38,7 +61,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.from("MyCompany20")
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: "MyCompany20"}}
+        sender: %Nelixmo.Sender{id: "MyCompany20"}, type: "text"}
 
   ## Example usage
 
@@ -70,7 +93,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.to("447525856424")
         %Nelixmo.SMS.Text{message: nil, recipient: %Nelixmo.Recipient{number: "447525856424"},
-        sender: %Nelixmo.Sender{id: nil}}
+        sender: %Nelixmo.Sender{id: nil}, type: "text"}
 
 
  ## Example usage
@@ -98,7 +121,7 @@ defmodule Nelixmo.SMS do
   ## Example 
         iex> Nelixmo.SMS.text |> Nelixmo.SMS.message("Hello world")
         %Nelixmo.SMS.Text{message: "Hello world", recipient: %Nelixmo.Recipient{number: nil},
-        sender: %Nelixmo.Sender{id: nil}}
+        sender: %Nelixmo.Sender{id: nil}, type: "text"}
 
 
  ## Example usage
