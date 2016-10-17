@@ -21,32 +21,32 @@ Currently only supports (non-unicode) SMS text messaging
 ## Example usage (pipe style)
 
 ```elixir
-  import Nelixmo.SMS
+import Nelixmo.SMS
 
-  Nelixmo.SMS.text
-    |> from("MyCompany20")
-    |> to("447525856424")
-    |> message("Hello Nexmo")
-    |> send_text
+Nelixmo.SMS.text
+  |> from("MyCompany20")
+  |> to("447525856424")
+  |> message("Hello Nexmo")
+  |> send_text
 ```
 
 ## Example usage (function style)
 
 ```elixir
-    Nelixmo.SMS.send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
+Nelixmo.SMS.send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
 ```
 
 ## Example respose
 
 ```elixir
-    %{
-         message_count: 1,
-         messages: [%Nelixmo.HTTP.Message.Response {
-            error_text: nil,
-            id: "08000000173AF786", network: "23420", price: 0.0333,
-            remaining_balance: 21.5005, status: 0, to: "447525856424"
-         }]
-      }
+%{
+  message_count: 1,
+  messages: [%Nelixmo.HTTP.Message.Response {
+    error_text: nil,
+    id: "08000000173AF786", network: "23420", price: 0.0333,
+    remaining_balance: 21.5005, status: 0, to: "447525856424"
+  }]
+}
 ```
  
 ## Installation (TODO: not yet available in Hex)
