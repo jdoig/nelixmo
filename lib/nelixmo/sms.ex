@@ -9,7 +9,7 @@ defmodule Nelixmo.SMS do
   """
 
   @doc """
-  Returns an empty `Nelixmo.SMS.text` struct
+  Returns an empty `Nelixmo.SMS.text` struct with the `:type` set to `"text"`
 
   ## Example 
         iex> Nelixmo.SMS.text
@@ -31,7 +31,7 @@ defmodule Nelixmo.SMS do
   end
 
   @doc """
-  Returns an empty `Nelixmo.SMS.text` struct
+  Returns an empty `Nelixmo.SMS.text` struct with the `:type` set to `"unicode"`
 
   ## Example
         iex> Nelixmo.SMS.unicode
