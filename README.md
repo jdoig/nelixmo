@@ -19,22 +19,27 @@ Currently only supports (non-unicode) SMS text messaging
     open cover/excoveralls.html
 
 ## Example usage (pipe style)
-    ```elixir
-    import Nelixmo.SMS
 
-    Nelixmo.SMS.text
-      |> from("MyCompany20")
-      |> to("447525856424")
+```elixir
+  import Nelixmo.SMS
+
+  Nelixmo.SMS.text
+    |> from("MyCompany20")
+    |> to("447525856424")
       |> message("Hello Nexmo")
       |> send_text
-    ```
+```
+
 ## Example usage (function style)
-    ```elixir
+
+```elixir
     import Nelixmo.SMS
     send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
-    ```
+```
+
 ## Example respose
-    ```elixir
+
+```elixir
     %{
          message_count: 1,
          messages: [%Nelixmo.HTTP.Message.Response {
@@ -43,7 +48,8 @@ Currently only supports (non-unicode) SMS text messaging
             remaining_balance: 21.5005, status: 0, to: "447525856424"
          }]
       }
-      ```
+```
+ 
 ## Installation (TODO: not yet available in Hex)
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
