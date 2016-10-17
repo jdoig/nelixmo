@@ -47,7 +47,7 @@ defmodule Nelixmo.HTTP.SMS do
   end
 
   defp build_payload(text) do
-    json = Map.merge(%{
+    Map.merge(%{
       :from => text.sender.id,
       :to => text.recipient.number,
       :type => text.type,
