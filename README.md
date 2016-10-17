@@ -39,7 +39,7 @@ Nelixmo.SMS.text
 Nelixmo.SMS.send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
 ```
 
-## Example respose
+## Example response
 
 ```elixir
 %{
