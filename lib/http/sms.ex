@@ -32,18 +32,31 @@ defmodule Nelixmo.HTTP.SMS do
     |> Map.new(&decode_element/1)
   end
 
+
+  defp build_options(text) do
+    options = Map.get(text, :options)
+    if is_nil(options) do
+      %{}
+    else
+      %{:callback => options.callback,
+	"client-ref" => options.client_ref,
+	"status-report-req" => options.status_report_req}
+        |> Enum.reject(fn{k,v}-> is_nil(v) end)
+        |> Enum.into(%{})
+    end
+  end
+
   defp build_payload(text) do
-    json = %{
+    json = Map.merge %{
       :from => text.sender.id,
       :to => text.recipient.number,
       :type => text.type,
       :text => text.message,
       :api_key => Nelixmo.Auth.key,
-      :api_secret => Nelixmo.Auth.secret,
-      :callback => text.options.callback,
-      "client-ref" => text.options.client_ref,
-      "status-report-req" => text.options.status_report_req,
-    } |> Poison.encode!
+      :api_secret => Nelixmo.Auth.secret
+    }, build_options(text)
+
+    json |> Poison.encode!
   end
 
   def send_text(text) do
