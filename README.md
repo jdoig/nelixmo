@@ -33,8 +33,7 @@ Currently only supports (non-unicode) SMS text messaging
 ## Example usage (function style)
 
 ```elixir
-    import Nelixmo.SMS
-    send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
+    Nelixmo.SMS.send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
 ```
 
 ## Example respose
