@@ -165,4 +165,21 @@ defmodule Nelixmo.SMS do
     |> send_text
   end
 
+  @doc """
+  Shorthand for:
+
+      Nelixmo.SMS.unicode
+        |> from(sender)
+        |> to(recipient)
+        |> message(message)
+        |> send_text
+   """
+  def send_unicode(from: sender, to: recipient, message: message) do
+    unicode
+    |> from(sender)
+    |> to(recipient)
+    |> message(message)
+    |> send_text
+  end
+
 end
