@@ -4,10 +4,13 @@ Elixir client for the [Nexmo](https://www.nexmo.com/) communications platform.
 
 Still very much a "work in progress" though it does have tests, docs, doctests,  validation and both a piped and simple function based API.
 
-Currently only supports (non-unicode) SMS text messaging
+Currently only supports (non-unicode) SMS text messaging.
 
 ## Generate dev config:
     touch config/dev.exs
+    
+Put your development API key and secret in this file (see `config/text.exs` for an example).
+Or use `NEXMO_API_KEY` & `NEXMO_API_SECRET` environment variables
 
 ## Generate and open docs:
     mix deps.get
