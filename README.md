@@ -2,12 +2,16 @@
 
 Elixir client for the [Nexmo](https://www.nexmo.com/) communications platform.
 
-Still very much a "work in progress" though it does have tests, docs, doctests,  validation and both a piped and simple finction based API.
+Still very much a "work in progress" though it does have tests, docs, doctests,  validation and both a piped and simple function based API.
 
 Currently only supports SMS text messaging (including unicode)
 
+
 ## Generate dev config:
     touch config/dev.exs
+    
+Put your development API key and secret in this file (see `config/text.exs` for an example).
+Or use `NEXMO_API_KEY` & `NEXMO_API_SECRET` environment variables
 
 ## Generate and open docs:
     mix deps.get
@@ -19,31 +23,36 @@ Currently only supports SMS text messaging (including unicode)
     open cover/excoveralls.html
 
 ## Example usage (pipe style)
-    ```elixir
-    import Nelixmo.SMS
 
-    Nelixmo.SMS.text
-      |> from("MyCompany20")
-      |> to("447525856424")
-      |> message("Hello Nexmo")
-      |> send_text
-    ```
+```elixir
+import Nelixmo.SMS
+
+Nelixmo.SMS.text
+  |> from("MyCompany20")
+  |> to("447525856424")
+  |> message("Hello Nexmo")
+  |> send_text
+```
+
 ## Example usage (function style)
-    ```elixir
-    import Nelixmo.SMS
-    send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
-    ```
-## Example respose
-    ```elixir
-    %{
-         message_count: 1,
-         messages: [%Nelixmo.HTTP.Message.Response {
-            error_text: nil,
-            id: "08000000173AF786", network: "23420", price: 0.0333,
-            remaining_balance: 21.5005, status: 0, to: "447525856424"
-         }]
-      }
-      ```
+
+```elixir
+Nelixmo.SMS.send_text(from: "MyCompany20", to: "447525856424", message: "Hello Nexmo")
+```
+
+## Example response
+
+```elixir
+%{
+  message_count: 1,
+  messages: [%Nelixmo.HTTP.Message.Response {
+    error_text: nil,
+    id: "08000000173AF786", network: "23420", price: 0.0333,
+    remaining_balance: 21.5005, status: 0, to: "447525856424"
+  }]
+}
+```
+ 
 ## Installation (TODO: not yet available in Hex)
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
