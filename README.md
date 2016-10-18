@@ -10,7 +10,7 @@ Currently only supports SMS text messaging (including unicode)
 ## Generate dev config:
     touch config/dev.exs
     
-Put your development API key and secret in this file (see `config/text.exs` for an example).
+Put your development API key and secret in this file (see `config/test.exs` for an example).
 Or use `NEXMO_API_KEY` & `NEXMO_API_SECRET` environment variables
 
 ## Generate and open docs:
