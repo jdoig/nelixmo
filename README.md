@@ -34,6 +34,31 @@ Nelixmo.SMS.text
   |> send_text
 ```
 
+Building messages like this allows you to reuse partially built message structures e.g:
+
+```elixir
+defmodule AccountAlerts do
+  import Nelixmo.SMS
+
+  @account_alert unicode
+    |> options(status_report_req: true, client_ref: "balance_alert")
+    |> from("BankCo")
+
+  def send_balance_alert(user) do
+    @account_alert
+      |> to(user.phone_number)
+      |> message("#{user.first_name}: your balance is #{user.balance}.")
+      |> send_text
+  end
+
+  def send_payment_alert(user, payment) do
+    @account_alert
+      |> to(user.phone_number)
+      |> message("#{user.first_name}: your account has been credited #{payment.total}")
+      |> send_text
+  end
+end
+```
 ## Example usage (function style)
 
 ```elixir
