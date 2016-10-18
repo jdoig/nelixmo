@@ -13,6 +13,8 @@ defmodule Nelixmo.SMS do
   Functions for building and sending SMS requests.
   """
 
+  @nelixmo_api Application.get_env(:nelixmo, :nelixmo_api)
+
   @doc """
   Returns an empty `Nelixmo.SMS.text` struct with the `:type` set to `"text"`
 
@@ -171,7 +173,7 @@ defmodule Nelixmo.SMS do
   returns the response body on success
   """
   def send_text(request) when is_map(request) do
-    Nelixmo.HTTP.SMS.send_text request
+    @nelixmo_api.send_text request
   end
 
   @doc """

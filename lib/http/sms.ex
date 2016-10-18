@@ -1,5 +1,8 @@
 defmodule Nelixmo.HTTP.Message.Response do
-  @moduledoc false
+  @moduledoc """
+  Tools for decoding response from Nexmo SMS API.
+  """
+
   defstruct [:id, :price, :network, :remaining_balance, :to, :status, :error_text, :client_ref]
 
   @expected_fields ~w(message-count messages)
@@ -25,6 +28,10 @@ defmodule Nelixmo.HTTP.Message.Response do
 end
 
 defmodule Nelixmo.HTTP.Message.Request do
+  @moduledoc """
+  Tools for building requests to Nexmo SMS API.
+  """
+
   defp build_options(text) do
     options = Map.get(text, :options)
     if is_nil(options) do
@@ -53,11 +60,11 @@ defmodule Nelixmo.HTTP.Message.Request do
 end
 
 defmodule Nelixmo.HTTP.SMS do
+  @moduledoc false
+
   use HTTPoison.Base
   import Nelixmo.HTTP.Message.Request
   import Nelixmo.HTTP.Message.Response
-
-  @moduledoc false
 
   defp process_url(url), do: "https://rest.nexmo.com/sms" <> url
   defp process_request_headers(_headers), do: [{"Content-Type", "application/json"}]

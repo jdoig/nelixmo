@@ -9,6 +9,7 @@ defmodule Nelixmo.Mixfile do
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+     elixirc_paths: elixirc_path(Mix.env),
      deps: deps()]
   end
 
@@ -39,4 +40,7 @@ defmodule Nelixmo.Mixfile do
       {:excoveralls, "~> 0.5", only: :test},
     ]
   end
+
+  defp elixirc_path(:test), do: ["lib/", "test/support"]
+  defp elixirc_path(_), do: ["lib/"]
 end
