@@ -41,7 +41,7 @@ defmodule AccountAlerts do
   import Nelixmo.SMS
 
   @account_alert unicode
-    |> options(status_report_req: true, client_ref: "balance_alert")
+    |> options(status_report_req: true, client_ref: "acct_alert")
     |> from("BankCo")
 
   def send_balance_alert(user) do
@@ -54,7 +54,7 @@ defmodule AccountAlerts do
   def send_payment_alert(user, payment) do
     @account_alert
       |> to(user.phone_number)
-      |> message("#{user.first_name}: your account has been credited #{payment.total}")
+      |> message("#{user.first_name}: your account has been credited #{payment.total}.")
       |> send_text
   end
 end
