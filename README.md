@@ -8,12 +8,12 @@ Currently only supports SMS text messaging (including unicode)
 
 
 ## Generate dev config:
-   cp config/test.exs config/dev.exs
-    
-Put your development API key and secret in this file or use `NEXMO_API_KEY` & `NEXMO_API_SECRET` environment variables.
+Put your development API key and secret in `config/dev.exs`  file or use `NEXMO_API_KEY` & `NEXMO_API_SECRET` environment variables.
+
+## Get dependencies: 
+    mix deps.get
 
 ## Generate and open docs:
-    mix deps.get
     mix docs
     open doc/index.html
 

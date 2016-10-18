@@ -1,11 +1,8 @@
 defmodule NelixmoSMSTest do
   use ExUnit.Case
-  import Mock
   doctest Nelixmo.SMS
 
-  test_with_mock "send_text pipe", Nelixmo.HTTP.SMS,
-    [send_text: fn(r) -> r end] do
-
+  test "send_text pipe" do
     import Nelixmo.SMS
 
     result = Nelixmo.SMS.text
@@ -14,19 +11,22 @@ defmodule NelixmoSMSTest do
       |> message("Hello World")
       |> send_text
 
-    assert result.sender.id == "Test123"
-    assert result.recipient.number == "440101020304"
-    assert result.message == "Hello World"
+    assert result.from == "Test123"
+    assert result.to == "440101020304"
+    assert result.text == "Hello World"
   end
 
-  test_with_mock "send_text function", Nelixmo.HTTP.SMS,
-    [send_text: fn(r) -> r end] do
+  test "send_text function" do
     result = Nelixmo.SMS.send_text(from: "Test123", to: "440101020304", message: "Hello World")
-
-    assert result.sender.id == "Test123"
-    assert result.recipient.number == "440101020304"
-    assert result.message == "Hello World"
-
+    assert result.from == "Test123"
+    assert result.to == "440101020304"
+    assert result.text == "Hello World"
   end
 
+  test "send_unicode function" do
+    result = Nelixmo.SMS.send_unicode(from: "Test123", to: "440101020304", message: "她脸上的香泽！")
+    assert result.from == "Test123"
+    assert result.to == "440101020304"
+    assert result.text == "她脸上的香泽！"
+  end
 end
