@@ -66,7 +66,9 @@ defmodule Nelixmo.HTTP.SMS do
   import Nelixmo.HTTP.Message.Request
   import Nelixmo.HTTP.Message.Response
 
-  defp process_url(url), do: "https://rest.nexmo.com/sms" <> url
+  @sms_uri Application.get_env(:nelixmo, :nelixmo_sms_uri)
+
+  defp process_url(url), do: @sms_uri <> url
   defp process_request_headers(_headers), do: [{"Content-Type", "application/json"}]
 
   defp process_response_body(body) do
